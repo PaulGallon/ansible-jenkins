@@ -14,6 +14,7 @@
     image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
     published_ports:
       - "{{ jenkins_port }}:8080"
+    restart_policy: "{{jenkins_docker_restart_policy}}"
     volumes:
       - "{{ jenkins_home }}:/var/jenkins_home"
     env:
@@ -26,6 +27,7 @@
     name: "{{ jenkins_docker_container_name }}"
     image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
     expose: "8080"
+    restart_policy: "{{jenkins_docker_restart_policy}}"
     volumes:
       - "{{ jenkins_home }}:/var/jenkins_home"
     env:

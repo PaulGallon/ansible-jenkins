@@ -61,6 +61,9 @@ jenkins_docker_container_name: jenkins
 # If set to false, the port will only be exposed to other containers (using "expose")
 jenkins_docker_expose_port: true
 
+# Docker container restart policy.
+# Options: always, False, on-failure, unless-stopped
+jenkins_docker_restart_policy: "on-failure"
 
 #############################################
 # Apt vars: apply to deploying via apt only #
@@ -73,4 +76,3 @@ jenkins_apt_packages:
 # Java version to use. Note that JDK 8 is required for Jenkins
 # 2.54 or greater.
 jenkins_java_version: "java-1.8.0-openjdk-amd64"
-
