@@ -3,7 +3,7 @@ Ansible Role for Jenkins
 
 Installs and completely configures Jenkins using Ansible.
 
-This role is used when you want all your Jenkins configuration
+This role is used when you want all of your Jenkins configuration
 in version control so you can deploy Jenkins repeatably
 and reliably and you can treat your Jenkins as a [Cow instead
 of a Pet](https://blog.engineyard.com/2014/pets-vs-cattle).
@@ -30,7 +30,7 @@ although more ways can easily be added, PRs welcome).
 Installation
 ------------
 
-Install using ansible galaxy:
+Install using Ansible Galaxy:
 
 ```
 $ ansible-galaxy install emmetog.jenkins
@@ -40,7 +40,7 @@ Role Variables
 --------------
 
 ```yml
-jenkins_version: "2.73.1" # The exact version of jenkins to deploy
+jenkins_version: "2.107.1" # The exact version of Jenkins to deploy
 
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
@@ -63,14 +63,14 @@ jenkins_install_via: "yum"
 jenkins_config_owner: "ubuntu"
 jenkins_config_group: "ubuntu"
 
-# The locations of the configuration files for jenkins
+# The locations of the configuration files for Jenkins
 jenkins_source_dir_configs: "{{ playbook_dir }}/jenkins-configs"
 jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
 
 # config.xml template source
 jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
 
-# Include custom files for jenkins installation
+# Include custom files for Jenkins installation
 jenkins_include_custom_files: false
 jenkins_custom_files: {}
 
@@ -81,7 +81,7 @@ jenkins_source_secrets: "{{ jenkins_source_dir_configs }}/secrets/"
 # The names of the jobs (config.xml must exist under jenkins_source_dir_jobs/job_name/)
 jenkins_jobs: []
 
-# These plugins will be installed in the jenkins instance
+# These plugins will be installed in the Jenkins instance
 jenkins_plugins:
   - git
   - log-parser
@@ -92,18 +92,18 @@ jenkins_plugins:
   - template-project
   - ec2
 
-# List of sources of custom jenkins plugins to install
+# List of sources of custom Jenkins plugins to install
 jenkins_custom_plugins: []
 
 ###################################################
 # Docker vars: apply to deploying via docker only #
 ###################################################
 
-# The docker hub image name
+# The Docker Hub image name
 jenkins_docker_image: "jenkins/jenkins"
 
-# Configs specific to the "docker" method of running jenkins
-# The name of the jenkins container
+# Configs specific to the "docker" method of running Jenkins
+# The name of the Jenkins container
 jenkins_docker_container_name: jenkins
 
 # Default, if true, the port will be exposed on the host (using "port")
@@ -118,7 +118,7 @@ jenkins_docker_restart_policy: "on-failure"
 # Apt vars: apply to deploying via apt only #
 #############################################
 
-# Packages which are to be installed on the jenkins instance
+# Packages which are to be installed on the Jenkins instance
 jenkins_apt_packages:
   - openjdk-8-jdk
 
@@ -135,7 +135,7 @@ Example Playbook
 - hosts: jenkins
 
   vars:
-    jenkins_version: "2.73.1"
+    jenkins_version: "2.107.1"
     jenkins_url: http://jenkins.example.com
     jenkins_port: 80
     jenkins_install_via: "docker"
@@ -157,15 +157,15 @@ Example Playbook
 HTTPS
 -----
 
-If you want to enable HTTPS on jenkins we recommend that you use a
+If you want to enable HTTPS on Jenkins we recommend that you use a
 reverse proxy like [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy)
 or [traefik](https://github.com/containous/traefik) and configure it
-as the HTTPS endpoint instead of configuring jenkins itself with HTTPS.
+as the HTTPS endpoint instead of configuring Jenkins itself with HTTPS.
 This gives you more flexibility and better separation of concerns. See
 the documentation in those projects for more details on how to deploy
 the proxies and configure HTTPS.
 
-If using a reverse proxy in front of the jenkins
+If using a reverse proxy in front of the Jenkins
 instance and deploying using docker you probably
 want to set the `jenkins_docker_expose_port` var to false so that the
 port is not exposed on the host, only to the reverse proxy.

@@ -1,5 +1,4 @@
 ---
-
 - name: Container is running
   docker_container:
     name: "{{ jenkins_docker_container_name }}"

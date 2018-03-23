@@ -1,6 +1,6 @@
 ---
 
-jenkins_version: "2.89.4" # The exact version of jenkins to deploy
+jenkins_version: "2.107.1" # The exact version of Jenkins to deploy
 
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
@@ -14,14 +14,14 @@ jenkins_java_opts: "-Djenkins.install.runSetupWizard=false"
 jenkins_config_owner: "ubuntu"
 jenkins_config_group: "ubuntu"
 
-# The locations of the configuration files for jenkins
+# The locations of the configuration files for Jenkins
 jenkins_source_dir_configs: "{{ playbook_dir }}/jenkins-configs"
 jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
 
 # config.xml template source
 jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
 
-# Include custom files for jenkins installation
+# Include custom files for Jenkins installation
 jenkins_include_custom_files: false
 jenkins_custom_files: {} # src and dest names
 
@@ -32,7 +32,7 @@ jenkins_source_secrets: "{{ jenkins_source_dir_configs }}/secrets/"
 # The names of the jobs (config.xml must exist under jenkins_source_dir_jobs/job_name/)
 jenkins_jobs: []
 
-# These plugins will be installed in the jenkins instance
+# These plugins will be installed in the Jenkins instance
 jenkins_plugins:
   - git
   - log-parser
@@ -43,7 +43,7 @@ jenkins_plugins:
   - template-project
   - ec2
 
-# List of sources of custom jenkins plugins to install
+# List of sources of custom Jenkins plugins to install
 jenkins_custom_plugins: []
 
 ###################################################
@@ -53,8 +53,8 @@ jenkins_custom_plugins: []
 # The docker hub image name
 jenkins_docker_image: "jenkins/jenkins"
 
-# Configs specific to the "docker" method of running jenkins
-# The name of the jenkins container
+# Configs specific to the "docker" method of running Jenkins
+# The name of the Jenkins container
 jenkins_docker_container_name: jenkins
 
 # Default, if true, the port will be exposed on the host (using "port")
@@ -69,7 +69,7 @@ jenkins_docker_restart_policy: "on-failure"
 # Apt vars: apply to deploying via apt only #
 #############################################
 
-# Packages which are to be installed on the jenkins instance
+# Packages which are to be installed on the Jenkins instance
 jenkins_apt_packages:
   - openjdk-8-jdk
 
