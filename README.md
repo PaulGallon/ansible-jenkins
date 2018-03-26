@@ -181,12 +181,10 @@ The example above will look for the job configs in
 
 The role will also look for `{{ playbook_dir }}/jenkins-configs/config.xml`
 These config.xml will be templated over to the server to be used as the job configuration.
-It will upload the whole secrets directory under `{{ playbook_dir }}/jenkins-configs/secrets` and configure custom files provided under `{{ jenkins_custom_files }}` variable. Note that `{{ jenkins_include_secrets }}` and `{{ jenkins_include_custom_files }}` varibales should be set to true for these to work.
-Additionaly the role can install custom plugins by providing the .jpi or .hpi files as a list under `{{ jenkins_custom_plugins }}` variable.
+It will upload the whole secrets directory under `{{ playbook_dir }}/jenkins-configs/secrets` and configure custom files provided under the `{{ jenkins_custom_files }}` variable. Note that `{{ jenkins_include_secrets }}` and `{{ jenkins_include_custom_files }}` variables should be set to true for these to work.
+Additionally the role can install custom plugins by providing the .jpi or .hpi files as a list under the `{{ jenkins_custom_plugins }}` variable.
 
-config.xml and custom files are templated so you can put variables in them,
-for example it would be a good idea to encrypt sensitive variables
-in ansible vault.
+`config.xml` and custom files are templated so you can put variables in them, for example it would be a good idea to encrypt sensitive variables in Ansible Vault.
 
 Example Job Configs
 -------------------
