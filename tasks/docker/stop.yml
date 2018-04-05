@@ -16,6 +16,7 @@
     user: "{{ jenkins_user }}"
     password: "{{ jenkins_key }}"
     force_basic_auth: yes
+  register: result
   until: result.status == 200
   retries: 5
   delay: 30
