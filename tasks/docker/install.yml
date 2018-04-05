@@ -36,4 +36,4 @@
 
 - pause:
     seconds: 45
-  when: container_result is changed
+  when: container_result.changed
