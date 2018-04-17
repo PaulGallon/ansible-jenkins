@@ -9,20 +9,16 @@
   shell: "docker update --restart no {{ jenkins_docker_container_name }}"
   when: initial_status.stdout == "Up"
 
-- name: Hit URL for graceful shutdown (with credentials)
-  uri:
-    url: "http://localhost:{{ jenkins_port }}/safeExit"
-    method: POST
-    user: "{{ jenkins_user }}"
-    password: "{{ jenkins_key }}"
-    force_basic_auth: yes
-  when: initial_status.stdout == "Up" and jenkins_user is defined and jenkins_key is defined
-
-- name: Hit URL for graceful shutdown (without credentials)
-  uri:
-    url: "http://localhost:{{ jenkins_port }}/safeExit"
-    method: POST
-  when: initial_status.stdout == "Up" and ( jenkins_user is not defined or jenkins_key is not defined )
+- name: Container is stopped
+  docker_container:
+    name: "{{ jenkins_docker_container_name }}"
+    image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
+    published_ports: "{{ jenkins_port }}:8080"
+    volumes:
+      - "{{ jenkins_home }}:/var/jenkins_home"
+    env:
+      JAVA_OPTS: "{{ jenkins_java_opts }}"
+    state: stopped
 
 - name: Wait for container to stop
   shell: docker ps -a -f name={{ jenkins_docker_container_name }} --format {%raw%}"table {{.Status}}"{%endraw%} | awk 'FNR == 2 {print}' | awk '{print $1}'
