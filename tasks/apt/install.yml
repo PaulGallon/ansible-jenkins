@@ -12,13 +12,26 @@
     shell: "/bin/false"
     state: present
 
+# This package is only available for Xenial (16.04), see:
+# https://packages.ubuntu.com/search?keywords=python-software-properties
 - name: Install apt PPA dependencies
   apt:
     name: python-software-properties
+  when: ansible_distribution_release == "xenial"
 
 - name: Install the Debian keyring
   apt:
     name: debian-archive-keyring
+
+- name: Add apt keys for debian repositories
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ key_item }}"
+  with_items:
+    - "04EE7237B7D453EC"
+    - "648ACFD622F3D138"
+  loop_control:
+    loop_var: key_item
 
 - name: Add Debian experimental repository for OpenJDK
   apt_repository:
@@ -39,12 +52,14 @@
     mode: 0644
 
 - name: Install apt packages
-  action: apt name={{ item }} state=present
-  with_items: "{{ jenkins_apt_packages }}"
+  apt:
+    name: "{{ jenkins_apt_packages }}"
+    state: present
 
 - name: Set default Java version
-  shell: /usr/sbin/update-java-alternatives -s "{{ jenkins_java_version }}"
-  ignore_errors: yes
+  shell: /usr/sbin/update-java-alternatives -s "{{ jenkins_java_version }}"  # noqa 305
+  ignore_errors: true
+  changed_when: false
 
 - name: Add Jenkins key
   apt_key:
@@ -59,30 +74,4 @@
 - name: Install Jenkins binary package
   apt:
     name: "jenkins={{ jenkins_version }}"
-    force: yes
-    update_cache: yes
-
-- name: Set JENKINS_HOME
-  lineinfile:
-    dest: /etc/default/jenkins
-    line: "JENKINS_HOME={{ jenkins_home }}"
-    regexp: '^JENKINS_HOME='
-
-- name: Set Jenkins port
-  lineinfile:
-    dest: /etc/default/jenkins
-    regexp: '^HTTP_PORT='
-    line: "HTTP_PORT={{ jenkins_port }}"
-
-- name: Set Jenkins command line options
-  lineinfile:
-    dest: /etc/default/jenkins
-    regexp: '^JAVA_ARGS='
-    line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
-
-- name: Jenkins is running
-  service:
-    name: jenkins
-    state: restarted
-
-- pause: seconds=15
+    update_cache: true

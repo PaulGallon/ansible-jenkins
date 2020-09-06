@@ -3,5 +3,8 @@
   service:
     name: jenkins
     state: stopped
+  changed_when: false
 
-- pause: seconds=5
+- name: Wait for Jenkins to stop
+  wait_for:
+    timeout: 5
